@@ -31,7 +31,6 @@ const char* WIFI_PASSWORD = "";
 
 #define DISPLAY_INTENSITY 1      // 0-15
 #define USE_24_HOUR false
-#define BLINK_COLON true
 
 #define NTP_SYNC_INTERVAL 3600000UL  // 1 hour
 
@@ -173,13 +172,11 @@ void drawDigit(uint8_t digit, uint8_t x)
 
 void drawColon(bool visible)
 {
-  if (!visible) return;
+  mx.setPoint(2, COLON_LEFT,  visible);
+  mx.setPoint(4, COLON_LEFT,  visible);
 
-  mx.setPoint(2, COLON_LEFT,  true);
-  mx.setPoint(4, COLON_LEFT,  true);
-
-  mx.setPoint(2, COLON_RIGHT, true);
-  mx.setPoint(4, COLON_RIGHT, true);
+  mx.setPoint(2, COLON_RIGHT, visible);
+  mx.setPoint(4, COLON_RIGHT, visible);
 }
 
 // ====================================================
@@ -230,8 +227,6 @@ void loop()
   const uint8_t m1 = timeinfo.tm_min / 10;
   const uint8_t m2 = timeinfo.tm_min % 10;
 
-  mx.clear();
-
   // Display order is reversed due to FC16 chain orientation
   drawDigit(m2, POS_M2);
   drawDigit(m1, POS_M1);
@@ -239,14 +234,11 @@ void loop()
   drawDigit(h2, POS_H2);
   drawDigit(h1, POS_H1);
 
-  drawColon(!BLINK_COLON || colonState);
-
-  if (BLINK_COLON)
-  {
-    colonState = !colonState;
-  }
-
+  drawColon(true);
   mx.update();
+  delay(1000);
 
+  drawColon(false);
+  mx.update();
   delay(1000);
 }

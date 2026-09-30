@@ -1,0 +1,19 @@
+USE Tasmocompiler+Tasmotizer
+
+Assign pins Correctly
+D6->CS
+D7->CLK
+D5->DIN
+
+CLI:
+Adjust as needed
+
+so65 1
+Timezone +5:30
+DisplayModel 19
+DisplayMode 0
+DisplayHeight 8
+DisplayWidth  32
+DisplayDimmer 10
+Rule1 on system#boot do DisplayClock 1 endon
+Rule1 1

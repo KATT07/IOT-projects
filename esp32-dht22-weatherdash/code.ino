@@ -97,7 +97,7 @@ float calculateHeatIndex(float temperatureC, float humidity)
   // here avoids round-off amplification in the nine-term polynomial.
   if (!isfinite(temperatureC) || !isfinite(humidity))
   {
-    return NAN;
+    return temperatureC;
   }
 
   const double t = (double)temperatureC * 1.8 + 32.0;
@@ -107,7 +107,7 @@ float calculateHeatIndex(float temperatureC, float humidity)
   // MCCI reference: undefined outside these limits.
   if (tRounded < 76.0 || tRounded > 126.0 || rh < 0.0 || rh > 100.0)
   {
-    return NAN;
+    return temperatureC;
   }
 
   // NWS initial/simple heat-index estimate.
@@ -149,7 +149,7 @@ float calculateHeatIndex(float temperatureC, float humidity)
   // Above this the reference does not provide a validated heat index.
   if (hi >= 183.5)
   {
-    return NAN;
+    return temperatureC;
   }
 
   return (float)((hi - 32.0) * (5.0 / 9.0));
